@@ -1,0 +1,9 @@
+# Notes Microservice
+
+This is a simple notes microservice built using Node.js, Express.js, and MongoDB. It also uses Elasticsearch for search functionality. It allows users to create, read, and delete notes.
+
+## API Endpoints
+
+### POST /notes
+
+Create a new note with the given title and content.
