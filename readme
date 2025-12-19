@@ -1,9 +1,41 @@
 # Notes Microservice
 
-This is a simple notes microservice built using Node.js, Express.js, and MongoDB. It also uses Elasticsearch for search functionality. It allows users to create, read, and delete notes.
+This is a simple notes microservice built using Node.js, Express.js, MongoDB, Elasticsearch, Redis, and Docker. It uses an API Gateway built with Node.js and Express.js to handle all incoming requests. It also uses Redis for caching and Elasticsearch for search functionality. It allows users to create, read, and delete notes.
 
 ## API Endpoints
 
 ### POST /notes
 
 Create a new note with the given title and content.
+
+### GET /notes
+
+Retrieve all notes belonging to the current user.
+
+### GET /notes/:id
+
+Retrieve a note with the given id belonging to the current user.
+
+### DELETE /notes/:id
+
+Delete a note with the given id belonging to the current user.
+
+## Technologies Used
+
+- Node.js
+- Express.js
+- MongoDB
+- Redis
+- Docker
+
+## API Gateway
+
+The API Gateway is built using Node.js and Express.js. It handles all incoming requests and forwards them to the correct microservice.
+
+## Notes Microservice
+
+The Notes Microservice is built using Node.js, Express.js, and MongoDB. It allows users to create, read, and delete notes.
+
+## Caching with Redis
+
+The application uses Redis for caching. It stores the results of expensive database operations in Redis to reduce the load on the database.
