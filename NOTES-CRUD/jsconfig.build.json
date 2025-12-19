@@ -1,0 +1,10 @@
+{
+  "include": [
+    "./generated",
+    "./prisma/**/*.ts",
+    "./prisma/**/*.tsx",
+    "./prisma/**/*.js",
+    "./prisma/**/*.jsx",
+    "./prisma/prisma.d.ts"
+  ]
+}

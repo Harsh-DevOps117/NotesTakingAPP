@@ -47,7 +47,7 @@ const rateLimitOption = rateLimit({
 
 app.use(rateLimitOption);
 
-const proxyOption = {
+const proxyOptionAPI = {
   proxyReqPathResolver:(req)=>{
     return req.originalUrl.replace(/^\/api\/auth/, "/v1/auth");
   },
@@ -60,8 +60,21 @@ const proxyOption = {
   }
 }
 
+const proxyOptionAPINOTES={
+  proxyReqPathResolver:(req)=>{
+    return req.originalUrl.replace(/^\/api\/notes/, "/v1/notes");
+  },
+  proxyErrorHnadler:(err,req,res)=>{
+    logger.error(err)
+    res.status(500).json({
+      success:false,
+      message:"Internal Server Error"
+    })
+  }
+}
+
 app.use("/api/auth",proxy("http://localhost:3001",{
-  ...proxyOption,
+  ...proxyOptionAPI,
   proxyReqOptDecorator:(proxyReqOpts,srcReq)=>{
     proxyReqOpts.headers["Content-Type"]="application/json"
     return proxyReqOpts
@@ -73,9 +86,18 @@ app.use("/api/auth",proxy("http://localhost:3001",{
   })
 )
 
-
-
-
+app.use("/api/notes",proxy("http://localhost:3002",{
+  ...proxyOptionAPINOTES,
+  proxyReqOptDecorator:(proxyReqOpts,srcReq)=>{
+    proxyReqOpts.headers["Content-Type"]="application/json"
+    return proxyReqOpts
+  },
+  userResDecorator:(proxyRes,proxyResData,srcReq,srcRes)=>{
+    logger.info(proxyRes.headers)
+    return proxyResData
+    },
+  })
+)
 
 
 app.get("/", (req, res) => {

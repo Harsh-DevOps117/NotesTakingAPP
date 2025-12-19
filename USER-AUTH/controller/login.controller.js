@@ -40,6 +40,7 @@ const LoginUser= async(req,res,next)=>{
       return res.status(200).json({
         success:true,
         message:"User logged in successfully",
+        userID:UserExist._id,
         Accesstoken:accessToken,
         Refreshtoken:refreshToken
       })
