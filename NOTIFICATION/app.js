@@ -15,7 +15,7 @@ app.use(helmet());
 app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ extended: true }));
 
-// ---- Consumers ----
+
 consumeMsg("user.logged_in", async (data) => {
   console.log("RAW EVENT TYPE:", typeof data);
   console.log("RAW EVENT VALUE:", data);
@@ -30,7 +30,7 @@ consumeMsg("user.logged_in", async (data) => {
   }
 });
 
-// ---- Health ----
+
 app.get("/health", (req, res) => {
   res.json({ status: "Notification service running" });
 });

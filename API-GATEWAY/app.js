@@ -73,6 +73,19 @@ const proxyOptionAPINOTES={
   }
 }
 
+const proxyOptionAGENTICAI={
+  proxyReqPathResolver:(req)=>{
+    return req.originalUrl.replace(/^\/api\/ai/, "/v1/ai");
+  },
+  proxyErrorHnadler:(err,req,res)=>{
+    logger.error(err)
+    res.status(500).json({
+      success:false,
+      message:"Internal Server Error"
+    })
+  }
+}
+
 app.use("/api/auth",proxy("http://localhost:3001",{
   ...proxyOptionAPI,
   proxyReqOptDecorator:(proxyReqOpts,srcReq)=>{
@@ -99,6 +112,18 @@ app.use("/api/notes",proxy("http://localhost:3002",{
   })
 )
 
+app.use("/api/ai",proxy("http://localhost:3004",{
+  ...proxyOptionAGENTICAI,
+  proxyReqOptDecorator:(proxyReqOpts,srcReq)=>{
+    proxyReqOpts.headers["Content-Type"]="application/json"
+    return proxyReqOpts
+  },
+  userResDecorator:(proxyRes,proxyResData,srcReq,srcRes)=>{
+    logger.info(proxyRes.headers)
+    return proxyResData
+    },
+  })
+)
 
 app.get("/", (req, res) => {
   res.json({ status: "API Gateway running" });

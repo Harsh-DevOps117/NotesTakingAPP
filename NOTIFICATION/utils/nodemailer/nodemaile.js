@@ -1,5 +1,4 @@
 import { configDotenv } from "dotenv";
-import { MailtrapTransport } from "mailtrap";
 import nodemailer from "nodemailer";
 
 configDotenv();
@@ -8,10 +7,19 @@ if (!process.env.MAILTRAP_TOKEN) {
   throw new Error("MAILTRAP_TOKEN is missing");
 }
 
-const transport = nodemailer.createTransport(
-  MailtrapTransport({
-    token: process.env.MAILTRAP_TOKEN,
-  })
-);
+const HOST = process.env.HOST;
+const PORT = process.env.PORT;
+const PASSWORD = process.env.PASSWORD;
+
+
+var transport = nodemailer.createTransport({
+  host: HOST,
+  port: PORT,
+  auth: {
+    user: "53e3fab3c67564",
+    pass: PASSWORD.toString(),
+  }
+});
+
 
 export default transport;
